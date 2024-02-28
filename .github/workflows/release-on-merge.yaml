@@ -6,12 +6,6 @@ concurrency:
   cancel-in-progress: false
 
 on:
-  workflow_dispatch:
-      inputs:
-        logLevel:
-          description: Log Level
-          default: debug
-          required: false
   push:
     branches: ["main"]
     paths:
