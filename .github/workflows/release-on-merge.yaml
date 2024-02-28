@@ -6,6 +6,20 @@ concurrency:
   cancel-in-progress: false
 
 on:
+  workflow_dispatch:
+      inputs:
+        dryRun:
+          description: Dry Run
+          default: "false"
+          required: false
+        logLevel:
+          description: Log Level
+          default: debug
+          required: false
+        version:
+          description: Release On Merge Version
+          default: latest
+          required: false
   push:
     branches: ["main"]
     paths:
