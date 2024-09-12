@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       trigger:
-        description: Run now
+        description: Run now ?
         type: boolean
         default: false
         required: true
@@ -20,14 +20,19 @@ jobs:
       - name: Get all opened issues
         id: opened_issues
         env:
-          REPOSITORY_API_URL: ${{ github.event.repository.url }}
+          REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ISSUES_URL="${REPOSITORY_API_URL}/issues"
-          OPEN_ISSUES="${ISSUES_URL}?q=state:open+type:issues+creator:jerichobotactionsz"
+          ISSUES_URL="https://api.github.com/search/issues?q=state:open+type:issues+author:jerichobotactions[bot]+repo:${REPOSITORY}"
 
           echo "Pulling issues"
-          ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" $OPEN_ISSUES | jq '[.[].number] | join(" ")' )
+          ISSUES_OBJECT=$( curl -s -H "Authorization: token $GITHUB_TOKEN" $ISSUES_URL 2> /dev/null)
+          
+          if [ ! -z $ISSUES_OBJECT ];
+          then
+             ISSUES=$( jq '[.items[].number] | join(" ")' <<< $ISSUE_OBJECT )
+          fi
+
           echo "::set-output name=issues::$ISSUES"
 
       - name: Close Issues
@@ -38,7 +43,6 @@ jobs:
         run: |
           CLOSE_URL="${REPOSITORY_API_URL}/issues"
           ISSUES=${{ steps.opened_issues.outputs.issues }}
-          NUMBER_OF_ISSUES=$()
 
           echo $ISSUES
           exit 0;
