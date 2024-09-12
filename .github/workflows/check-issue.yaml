@@ -15,7 +15,7 @@ jobs:
         id: check_keywords
         run: |
           echo "Checking for keywords..."
-          if echo "${{ github.event.issue.body }}" | grep -i -E 'truenas|truechart'; then
+          if echo "${{ github.event.issue.title }}" | grep -i 'Renovate Dashboard'; then
             echo "Keywords found"
             echo "::set-output name=keywords_found::true"
           else
