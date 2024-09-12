@@ -37,4 +37,4 @@ jobs:
             echo curl -s -H "Content-Type: application/json" \
                  -X PATCH -d '{"state":"closed", "state_reason": "not_planned"}' \
                  $CLOSE_URL
-          end
+          done
