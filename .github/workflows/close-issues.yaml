@@ -7,15 +7,11 @@ jobs:
     steps:
       - name: Install jq
         run: sudo apt-get install -y jq
-       
-      - name: Get repository url
-        env:
-          REPOSITORY_API_URL: ${{ github.event.repository.url }}
-        run: echo $REPOSITORY_API_URL
         
       - name: Get all opened issues
         id: opened_issues
         env:
+          REPOSITORY_API_URL: ${{ github.event.repository.url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUES_URL="${REPOSITORY_API_URL}/issues"
