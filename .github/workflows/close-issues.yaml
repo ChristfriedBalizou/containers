@@ -31,7 +31,7 @@ jobs:
           echo "Parsing issues $ISSUES_OBJECT"
           if [ $( wc -w <<< ${ISSUES_OBJECT} ) -gt 1 ];
           then
-             ISSUES=$( jq '[.items[].number] | join(" ")' <<< $ISSUES_OBJECT )
+             ISSUES=$( jq '[.items[]?.number] | join(" ")' <<< $ISSUES_OBJECT )
           fi
 
           echo "::set-output name=issues::$ISSUES"
