@@ -43,12 +43,12 @@ jobs:
           REPOSITORY_API_URL: ${{ github.event.repository.url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          CLOSE_URL="${REPOSITORY_API_URL}/issues"
           ISSUES=${{ steps.opened_issues.outputs.issues }}
           
           for ISSUE_NUMBER in $ISSUES;
           do
             echo "Closing issue #${ISSUE_NUMBER}..."
+            CLOSE_URL="${REPOSITORY_API_URL}/issues/${ISSUE_NUMBER}"  
             curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" \
                  -X PATCH -d '{"state":"closed", "state_reason": "not_planned"}' \
                  $CLOSE_URL
