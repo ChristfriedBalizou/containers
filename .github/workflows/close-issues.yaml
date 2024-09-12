@@ -25,7 +25,16 @@ jobs:
       - name: Close Issues
         if: steps.opened_issues.outputs.issues != ''
         env:
+          REPOSITORY_API_URL: ${{ github.event.repository.url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ISSUES=${{ steps.opened_issues.outputs.issues }}
-          echo $ISSUES
+          CLOSE_URL="${REPOSITORY_API_URL}/issues"
+          ISSUE_NUMBERS=${{ steps.opened_issues.outputs.issues }}
+
+          for ISSUE_NUMBER in $ISSUE_NUMBERS;
+          do
+            echo "Closing issue #${ISSUE_NUMBER}..."
+            echo curl -s -H "Content-Type: application/json" \
+                 -X PATCH -d '{"state":"closed", "state_reason": "not_planned"}' \
+                 $CLOSE_URL
+          end
