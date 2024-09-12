@@ -19,6 +19,7 @@ jobs:
 
           echo "Pulling issues"
           ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" $OPEN_ISSUES | jq '.[] | .number' )
+          echo $ISSUES
           echo "::set-output name=issues::$ISSUES"
 
       - name: Close Issues
