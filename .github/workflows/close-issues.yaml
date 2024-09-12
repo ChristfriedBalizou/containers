@@ -51,7 +51,7 @@ jobs:
             CLOSE_URL="${REPOSITORY_API_URL}/issues/${ISSUE_NUMBER}"  
             curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" \
                  -X PATCH -d '{"state":"closed", "state_reason": "not_planned"}' \
-                 $CLOSE_URL
+                 $CLOSE_URL > /dev/null 2>&1
           done
 
           echo "Closed $(wc -w <<< $ISSUES) Issues."
