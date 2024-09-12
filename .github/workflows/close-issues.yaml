@@ -18,7 +18,7 @@ jobs:
           OPEN_ISSUES="${ISSUES_URL}?q=state:open+type:issues+creator:jerichobotactions"
 
           echo "Pulling issues"
-          ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" $OPEN_ISSUES | jq '.[] | .number' )
+          ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" $OPEN_ISSUES | jq '[.[].number] | join(" ")' )
           echo $ISSUES
           echo "::set-output name=issues::$ISSUES"
 
