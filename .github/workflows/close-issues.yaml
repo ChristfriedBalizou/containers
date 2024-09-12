@@ -5,7 +5,19 @@ jobs:
   close_issues:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
+      - name: Install jq
+        run: sudo apt-get install -y jq
+       
+      - name: Get repository url
         env:
-          GITHUB_CONTEXT: ${{ github.event.repository.issues_url }}
-        run: echo "$GITHUB_CONTEXT"
+          REPOSITORY_API_URL: ${{ github.event.repository.url }}
+        run: echo $REPO_API_URL
+        
+      - name: Create issue filter
+        run: |
+          echo "Get all open issues"
+          
+          ISSUES_URL="${REPOSITORY_API_URL}/issues"
+          OPEN_ISSUES="${ISSUES_URL}?q=state:open+type:issues+creator:jerichobotactions"
+
+          echo $OPEN_ISSUES
