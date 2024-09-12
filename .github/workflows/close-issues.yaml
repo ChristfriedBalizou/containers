@@ -27,7 +27,6 @@ jobs:
 
           echo "Pulling issues"
           ISSUES_OBJECT=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "$ISSUES_URL" 2> /dev/null )
-          ISSUES=
           
           if [ $( wc -w <<< ${ISSUES_OBJECT} ) -gt 1 ];
           then
