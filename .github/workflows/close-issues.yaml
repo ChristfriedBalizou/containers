@@ -11,7 +11,7 @@ jobs:
       - name: Get repository url
         env:
           REPOSITORY_API_URL: ${{ github.event.repository.url }}
-        run: echo $REPO_API_URL
+        run: echo $REPOSITORY_API_URL
         
       - name: Get all opened issues
         id: opened_issues
@@ -24,7 +24,7 @@ jobs:
 
           echo "Pulling issues"
           # $ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "'$OPEN_ISSUES'" | jq .number )
-          echo "::set-output name=issues::$OPEN_ISSUES"
+          echo "::set-output name=issues::$ISSUES_URL"
 
       - name: Comment, close, and lock issue if keywords found
         if: steps.opened_issues.outputs.issues != ''
