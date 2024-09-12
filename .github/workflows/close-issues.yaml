@@ -1,5 +1,14 @@
 name: Close Issues
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: Run now
+        type: boolean
+        default: false
+        required: true
+  schedule:
+    - cron: "*/20 * * * *"
 
 jobs:
   close_issues:
@@ -15,11 +24,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUES_URL="${REPOSITORY_API_URL}/issues"
-          OPEN_ISSUES="${ISSUES_URL}?q=state:open+type:issues+creator:jerichobotactions"
+          OPEN_ISSUES="${ISSUES_URL}?q=state:open+type:issues+creator:jerichobotactionsz"
 
           echo "Pulling issues"
           ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" $OPEN_ISSUES | jq '[.[].number] | join(" ")' )
-          echo $ISSUES
           echo "::set-output name=issues::$ISSUES"
 
       - name: Close Issues
@@ -31,11 +39,14 @@ jobs:
           CLOSE_URL="${REPOSITORY_API_URL}/issues"
           ISSUES=${{ steps.opened_issues.outputs.issues }}
           NUMBER_OF_ISSUES=$()
+
+          echo $ISSUES
+          exit 0;
           
           for ISSUE_NUMBER in $ISSUES;
           do
             echo "Closing issue #${ISSUE_NUMBER}..."
-            echo curl -s -H "Content-Type: application/json" \
+            curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" \
                  -X PATCH -d '{"state":"closed", "state_reason": "not_planned"}' \
                  $CLOSE_URL
           done
