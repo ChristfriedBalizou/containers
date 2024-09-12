@@ -29,7 +29,7 @@ jobs:
           echo "Pulling issues"
           ISSUES_OBJECT=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "$ISSUES_URL" 2> /dev/null )
 
-          echo "Parsing issues $ISSUES_OBJECT"
+          echo "Parsing issues"
           if [ $( wc -w <<< ${ISSUES_OBJECT} ) -gt 1 ];
           then
              ISSUES=$( jq '[.items[]?.number] | join(" ")' <<< $ISSUES_OBJECT )
@@ -45,9 +45,6 @@ jobs:
         run: |
           CLOSE_URL="${REPOSITORY_API_URL}/issues"
           ISSUES=${{ steps.opened_issues.outputs.issues }}
-
-          echo $ISSUES
-          exit 0;
           
           for ISSUE_NUMBER in $ISSUES;
           do
