@@ -23,10 +23,10 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ISSUES_URL="https://api.github.com/search/issues?q=state:open+type:issue+author:jerichobotactions[bot]+repo:${REPOSITORY}"
+          ISSUES_URL="https://api.github.com/search/issues?q=state:open+type:issue+author:jerichobotactions%5Bbot%5D+repo:${REPOSITORY}"
 
           echo "Pulling issues $ISSUES_URL"
-          ISSUES_OBJECT=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "$ISSUES_URL" )
+          ISSUES_OBJECT=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "$ISSUES_URL" 2> /dev/null )
           
           if [ ! -z ${ISSUES_OBJECT} ];
           then
