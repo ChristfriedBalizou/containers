@@ -23,8 +23,8 @@ jobs:
           OPEN_ISSUES="${ISSUES_URL}?q=state:open+type:issues+creator:jerichobotactions"
 
           echo "Pulling issues"
-          $ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "'$OPEN_ISSUES'" | jq .number )
-          echo "::set-output name=issues::$ISSUES"
+          # $ISSUES=$( curl -s -H "Authorization: token $GITHUB_TOKEN" "'$OPEN_ISSUES'" | jq .number )
+          echo "::set-output name=issues::$OPEN_ISSUES"
 
       - name: Comment, close, and lock issue if keywords found
         if: steps.opened_issues.outputs.issues != ''
