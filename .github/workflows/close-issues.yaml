@@ -1,14 +1,5 @@
 name: Close Issues
-on: 
-  workflow_dispatch:
-    inputs:
-      trigger:
-        description: Run now ?
-        type: boolean
-        default: false
-        required: true
-  schedule:
-    - cron: "*/20 * * * *"
+on: workflow_dispatch
 
 jobs:
   close_issues:
