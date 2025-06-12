@@ -125,7 +125,7 @@ WORKDIR /code/mathesar
 
 # Install additional Python dependencies for S3 storage and OIDC
 # These are added to the environment provided by Mathesar's base image.
-COPY custom-requirements.txt .
+COPY --from=base custom-requirements.txt .
 RUN pip install --no-cache-dir -r custom-requirements.txt
 
 # If python-oidc-client is *not* already in custom-requirements.txt, uncomment this line:
@@ -133,7 +133,7 @@ RUN pip install --no-cache-dir -r custom-requirements.txt
 
 # Copy your custom settings file into the image
 # Ensure the path aligns with where Mathesar expects settings, or where you define it.
-COPY custom_settings.py config/settings/custom/custom_settings.py
+COPY --from=base custom_settings.py config/settings/custom/custom_settings.py
 
 # Set the default settings module for the runtime.
 ENV DJANGO_SETTINGS_MODULE=config.settings.custom_settings
