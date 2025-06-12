@@ -127,9 +127,9 @@ WORKDIR /code/mathesar
 
 # Install additional Python dependencies for S3 storage and OIDC
 # These are added to the environment provided by Mathesar's base image.
-COPY --from=base /custom-requirements.txt .
-RUN pip install --no-cache-dir -r ./custom-requirements.txt
-RUN rm -f ./custom-requirements.txt
+# COPY --from=base /custom-requirements.txt .
+# RUN pip install --no-cache-dir -r ./custom-requirements.txt
+# RUN rm -f ./custom-requirements.txt
 
 # Copy your custom settings file into the image
 # Ensure the path aligns with where Mathesar expects settings, or where you define it.
