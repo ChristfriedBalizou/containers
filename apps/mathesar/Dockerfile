@@ -32,7 +32,8 @@ ENV LANG=en_US.utf8
 # Add dockerize (for healthchecks in docker-compose, if still desired)
 RUN curl -L https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin
 
-COPY ./custom-requirements.txt .
+COPY custom-requirements.txt /
+COPY custom_settings.py /
 
 #=========== STAGE: DEVELOPMENT_BASE =========================================#
 
@@ -127,12 +128,13 @@ WORKDIR /code/mathesar
 
 # Install additional Python dependencies for S3 storage and OIDC
 # These are added to the environment provided by Mathesar's base image.
-COPY --from=base ./custom-requirements.txt .
-RUN pip install --no-cache-dir -r custom-requirements.txt
+COPY --from=base /custom-requirements.txt .
+RUN pip install --no-cache-dir -r ./custom-requirements.txt
+RUN rm -f ./custom-requirements.txt
 
 # Copy your custom settings file into the image
 # Ensure the path aligns with where Mathesar expects settings, or where you define it.
-COPY --from=base ./custom_settings.py config/settings/custom/custom_settings.py
+COPY --from=base /custom_settings.py config/settings/custom_settings.py
 
 # Set the default settings module for the runtime.
 ENV DJANGO_SETTINGS_MODULE=config.settings.custom_settings
