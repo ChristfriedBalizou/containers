@@ -133,7 +133,7 @@ RUN rm -f ./custom-requirements.txt
 
 # Copy your custom settings file into the image
 # Ensure the path aligns with where Mathesar expects settings, or where you define it.
-COPY --from=base /custom_settings.py config/settings/custom_settings.py
+# COPY --from=base /custom_settings.py config/settings/custom_settings.py
 
 # Set the default settings module for the runtime.
 ENV DJANGO_SETTINGS_MODULE=config.settings.custom_settings
