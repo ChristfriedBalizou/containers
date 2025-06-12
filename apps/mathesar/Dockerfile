@@ -32,8 +32,8 @@ ENV LANG=en_US.utf8
 # Add dockerize (for healthchecks in docker-compose, if still desired)
 RUN curl -L https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin
 
-COPY ./custom-requirements.txt custom-requirements.txt
-COPY ./custom_settings.py custom_settings.py
+COPY ./custom-requirements.txt .
+COPY ./custom_settings.py .
 
 #=========== STAGE: DEVELOPMENT_BASE =========================================#
 
